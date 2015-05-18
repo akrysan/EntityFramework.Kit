@@ -7,8 +7,8 @@
     <ProjectGuid>{380C8486-9872-4EEA-AD6B-F646748AF658}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WA.Data.Entity</RootNamespace>
-    <AssemblyName>WA.Data.Entity</AssemblyName>
+    <RootNamespace>WaveAccess.Data.Entity</RootNamespace>
+    <AssemblyName>WaveAccess.Data.Entity</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -47,9 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBInitializerResolver.cs" />
-    <Compile Include="EFConfiguration.cs" />
-    <Compile Include="SeedAfterMigarateOnly.cs" />
-    <Compile Include="Migrations\MigratorSeedIfSchemaIsChanged.cs" />
+    <Compile Include="SpecialDBConfiguration.cs" />
+    <Compile Include="MigrateDatabaseWithSpecialSeed.cs" />
+    <Compile Include="Migrations\SpecificSeedMigrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

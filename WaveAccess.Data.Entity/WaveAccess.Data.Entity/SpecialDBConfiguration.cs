@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WA.Data.Entity
+namespace WaveAccess.Data.Entity
 {
-    public class EFConfiguration : DbConfiguration
+    public class SpecialDBConfiguration : DbConfiguration
     {
-        public EFConfiguration()
+        public SpecialDBConfiguration()
         {
             this.AddDependencyResolver(new DBInitializerResolver());
         }

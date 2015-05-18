@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WA.Data.Entity.Migrations
+namespace WaveAccess.Data.Entity.Migrations
 {
-    public class MigratorSeedIfSchemaIsChanged : MigratorBase
+    public class SpecialSeedMigrator : MigratorBase
     {
-        public MigratorSeedIfSchemaIsChanged(DbMigrationsConfiguration configuration) : base(new DbMigrator(configuration)) { }
+        public SpecialSeedMigrator(DbMigrationsConfiguration configuration) : base(new DbMigrator(configuration)) { }
 
         public override void Update(string targetMigration)
         {

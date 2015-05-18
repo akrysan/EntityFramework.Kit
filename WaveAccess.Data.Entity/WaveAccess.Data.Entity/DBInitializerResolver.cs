@@ -7,23 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WA.Data.Entity
+namespace WaveAccess.Data.Entity
 {
     internal class DBInitializerResolver : IDbDependencyResolver
     {
-
+        private static object _sync = new object();
         public object GetService(System.Type type, object key)
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDatabaseInitializer<>))
             {
                 var contextType = type.GenericTypeArguments[0];
-                var genType = typeof(MigrateDatabaseToLatestVersion<,>);
+                var genType = typeof(MigrateDatabaseWithSpecialSeed<,>);
                 var parrentConfigType = typeof(DbMigrationsConfiguration<>).MakeGenericType(contextType);
                 Type migrateConfig = contextType.Assembly.GetTypes().FirstOrDefault(t => parrentConfigType.IsAssignableFrom(t));
                 if (migrateConfig == null) return null;
-
-                Type dbInitType = genType.MakeGenericType(contextType, migrateConfig);
-                return Activator.CreateInstance(dbInitType, new object[] { true });
+                lock (_sync)
+                {
+                    Type dbInitType = genType.MakeGenericType(contextType, migrateConfig);
+                    return Activator.CreateInstance(dbInitType, new object[] { true });
+                }
             }
             return null;
         }

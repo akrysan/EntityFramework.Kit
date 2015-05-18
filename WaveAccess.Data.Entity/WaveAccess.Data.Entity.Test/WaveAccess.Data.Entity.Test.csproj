@@ -6,8 +6,8 @@
     <ProjectGuid>{946A4CCB-5D02-402D-9B9C-86B53717F0C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WA.Data.Entity.Test</RootNamespace>
-    <AssemblyName>WA.Data.Entity.Test</AssemblyName>
+    <RootNamespace>WaveAccess.Data.Entity.Test</RootNamespace>
+    <AssemblyName>WaveAccess.Data.Entity.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

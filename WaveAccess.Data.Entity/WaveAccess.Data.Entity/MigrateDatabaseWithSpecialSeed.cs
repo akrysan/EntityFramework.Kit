@@ -5,19 +5,19 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WA.Data.Entity.Migrations;
+using WaveAccess.Data.Entity.Migrations;
 
-namespace WA.Data.Entity
+namespace WaveAccess.Data.Entity
 {
-    public class SeedAfterMigarateOnly<TContext, TMigrationsConfiguration> : MigrateDatabaseToLatestVersion<TContext, TMigrationsConfiguration>
+    public class MigrateDatabaseWithSpecialSeed<TContext, TMigrationsConfiguration> : MigrateDatabaseToLatestVersion<TContext, TMigrationsConfiguration>
         where TContext : DbContext
         where TMigrationsConfiguration : DbMigrationsConfiguration<TContext>, new()
     {
         private readonly DbMigrationsConfiguration _config;
         private readonly bool _useSuppliedContext;
 
-        public SeedAfterMigarateOnly()
-            : base(useSuppliedContext: false)
+        public MigrateDatabaseWithSpecialSeed()
+            : this(useSuppliedContext: false)
         {
         }
 
@@ -30,8 +30,8 @@ namespace WA.Data.Entity
         /// triggered initialization. Otherwise, the connection information will be taken from a context constructed 
         /// using the default constructor or registered factory if applicable. 
         /// </param>
-        public SeedAfterMigarateOnly(bool useSuppliedContext)
-            : base(useSuppliedContext, new TMigrationsConfiguration())
+        public MigrateDatabaseWithSpecialSeed(bool useSuppliedContext)
+            : this(useSuppliedContext, new TMigrationsConfiguration())
         {
         }
 
@@ -46,27 +46,16 @@ namespace WA.Data.Entity
         /// using the default constructor or registered factory if applicable.
         /// </param>
         /// <param name="configuration"> Migrations configuration to use during initialization. </param>
-        public SeedAfterMigarateOnly(bool useSuppliedContext, TMigrationsConfiguration configuration)
-            : base(useSuppliedContext, configuration)
+        public MigrateDatabaseWithSpecialSeed(bool useSuppliedContext, TMigrationsConfiguration configuration):base(useSuppliedContext, configuration)
         {
             _useSuppliedContext = useSuppliedContext;
             _config = configuration;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the MigrateAndSeedDbIfSchemaIsOutdated class that will
-        /// use a specific connection string from the configuration file to connect to
-        /// the database to perform the migration.
-        /// </summary>
-        /// <param name="connectionStringName"> The name of the connection string to use for migration. </param>
-        public SeedAfterMigarateOnly(string connectionStringName)
-            : base(connectionStringName)
-        {
-        }
 
         public override void InitializeDatabase(TContext context)
         {
-            var migrator = new MigratorSeedIfSchemaIsChanged(_config);
+            var migrator = new SpecialSeedMigrator(_config);
             migrator.Update();
         }
     }
