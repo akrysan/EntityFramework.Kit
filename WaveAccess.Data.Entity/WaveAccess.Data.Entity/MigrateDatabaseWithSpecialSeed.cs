@@ -55,7 +55,7 @@ namespace WaveAccess.Data.Entity
 
         public override void InitializeDatabase(TContext context)
         {
-            var migrator = new SpecialSeedMigrator(_config);
+            var migrator = new SpecialSeedMigrator(_config, this._useSuppliedContext ? context : default(TContext));
             migrator.Update();
         }
     }
