@@ -47,7 +47,7 @@ namespace WaveAccess.Data.Entity
         }
         private void LogCommand<TResult>(DbCommand command, DbCommandInterceptionContext<TResult> interceptionContext)
         {
-            Log.LogCommand(command, _stopwatch.ElapsedMilliseconds, interceptionContext.OriginalResult.ToString(), interceptionContext.Exception);
+            Log.LogCommand(command, _stopwatch.ElapsedMilliseconds, ((object)interceptionContext.OriginalResult??"(Null)").ToString(), interceptionContext.Exception);
         }
     }
 }
