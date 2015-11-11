@@ -1,0 +1,1 @@
+﻿Select 'init def' as text

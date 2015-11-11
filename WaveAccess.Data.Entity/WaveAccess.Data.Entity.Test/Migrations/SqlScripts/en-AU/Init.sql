@@ -1,0 +1,1 @@
+﻿Select 'init au' as text

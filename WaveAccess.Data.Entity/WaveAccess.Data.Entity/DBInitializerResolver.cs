@@ -6,6 +6,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WaveAccess.Data.Entity.Migrations.History;
 
 namespace WaveAccess.Data.Entity
 {
@@ -17,6 +18,7 @@ namespace WaveAccess.Data.Entity
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDatabaseInitializer<>))
             {
                 var contextType = type.GenericTypeArguments[0];
+                if (contextType == typeof(SqlScriptsHistorEntity)) return null;
                 var genType = typeof(MigrateDatabaseWithSpecialSeed<,>);
                 var parrentConfigType = typeof(DbMigrationsConfiguration<>).MakeGenericType(contextType);
                 Type migrateConfig = contextType.Assembly.GetTypes().FirstOrDefault(t => parrentConfigType.IsAssignableFrom(t));

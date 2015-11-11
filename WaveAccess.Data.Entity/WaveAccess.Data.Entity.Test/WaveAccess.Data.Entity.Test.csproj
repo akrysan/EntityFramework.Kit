@@ -35,7 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,7 +60,54 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Migrations\201511031855347_Init.cs" />
+    <Compile Include="Migrations\201511031855347_Init.Designer.cs">
+      <DependentUpon>201511031855347_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511052244239_add_version.cs" />
+    <Compile Include="Migrations\201511052244239_add_version.Designer.cs">
+      <DependentUpon>201511052244239_add_version.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\SimpleContext.cs" />
+    <Compile Include="Models\SimpleEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MigrateDatabaseWithSpecialSeed.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WaveAccess.Data.Entity\WaveAccess.Data.Entity.csproj">
+      <Project>{380c8486-9872-4eea-ad6b-f646748af658}</Project>
+      <Name>WaveAccess.Data.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201511031855347_Init.resx">
+      <DependentUpon>201511031855347_Init.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201511052244239_add_version.resx">
+      <DependentUpon>201511052244239_add_version.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\SqlScripts\Default\Second.sql" />
+    <EmbeddedResource Include="Migrations\SqlScripts\Default\Init.sql" />
+    <EmbeddedResource Include="Migrations\SqlScripts\en-AU\Init.sql" />
+    <EmbeddedResource Include="Migrations\SqlScripts\en-AU\Second.sql" />
+    <EmbeddedResource Include="Migrations\SqlScripts\en-GB\Init.sql" />
+    <EmbeddedResource Include="Migrations\SqlScripts\en-GB\Second.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\SqlScripts\en-GB\Proc.set\proc.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\SqlScripts\en-GB\Proc.set\proc1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\SqlScripts\Default\Advice.Group\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

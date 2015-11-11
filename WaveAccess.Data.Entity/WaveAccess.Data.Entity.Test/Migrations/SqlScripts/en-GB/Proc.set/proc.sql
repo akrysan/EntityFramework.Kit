@@ -1,0 +1,1 @@
+﻿Select 'proc GB' as text

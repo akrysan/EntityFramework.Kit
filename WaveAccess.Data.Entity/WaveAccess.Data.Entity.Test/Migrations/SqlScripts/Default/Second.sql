@@ -1,0 +1,1 @@
+﻿Select 'Second def' as text
