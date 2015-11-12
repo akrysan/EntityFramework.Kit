@@ -11,13 +11,15 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using WaveAccess.Data.Entity.Migrations.History;
 
-namespace WaveAccess.Data.Entity {
+namespace WaveAccess.Data.Entity.Migrations {
     public static class MigrationsConfigurationExtensions {
         private const string scriptFolderName = ".SqlScripts.";
+        private static Regex _regex = new Regex(@"^\s*GO\s*$", RegexOptions.IgnoreCase|RegexOptions.Multiline|RegexOptions.Compiled);
 
         private class SqlResourceInfo {
             public SqlResourceInfo(Type configType, string Path) {
@@ -86,8 +88,10 @@ namespace WaveAccess.Data.Entity {
 
             public void ExecuteSqlScript(SqlScriptsHistoryContext historyContext) {
                 using (var tran = historyContext.Database.BeginTransaction()) {
-
-                    historyContext.Database.ExecuteSqlCommand(this.GetSqlScript());
+                    string[] commands = _regex.Split(this.GetSqlScript());
+                    foreach (var command in commands) {
+                        historyContext.Database.ExecuteSqlCommand(command);
+                    }
                     historyContext.SqlScriptsHistory.AddOrUpdate(h => h.ScriptName, new SqlScriptsHistorEntity() { ScriptName = this.Path, Hash = this.Hash, ExecutionDateUtc = DateTime.UtcNow });
                     historyContext.SaveChanges();
 
@@ -96,8 +100,7 @@ namespace WaveAccess.Data.Entity {
             }
         }
 
-        private static string GetResourceCultureName(string cultureName) {
-            if (!string.IsNullOrWhiteSpace(cultureName)) return cultureName;
+        private static string GetResourceCultureName() {
 
             var configCultureSection = System.Configuration.ConfigurationManager.GetSection("system.web/globalization");
             Type sectionType = configCultureSection.GetType();
@@ -112,7 +115,7 @@ namespace WaveAccess.Data.Entity {
             var configType = config.GetType();
             var startString = configType.Namespace + scriptFolderName;
 
-            var migrateCultures = new[] { "Default", GetResourceCultureName(cultureName) };
+            var migrateCultures = !string.IsNullOrWhiteSpace(cultureName) ? new[] {cultureName} : new[] { "Default", GetResourceCultureName() };
 
             var resources = configType.Assembly.GetManifestResourceNames().Where(s => s.StartsWith(startString, StringComparison.InvariantCultureIgnoreCase)
                                                                         && s.EndsWith(".sql", StringComparison.InvariantCultureIgnoreCase)

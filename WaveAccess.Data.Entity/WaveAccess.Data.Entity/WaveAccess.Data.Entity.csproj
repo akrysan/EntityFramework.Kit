@@ -57,7 +57,7 @@
     <Compile Include="Log4NetCommandInterceptor.cs" />
     <Compile Include="DBInitializerResolver.cs" />
     <Compile Include="Log4NetSQLExtension.cs" />
-    <Compile Include="MigrationsConfigurationExtensions.cs" />
+    <Compile Include="Migrations\MigrationsConfigurationExtensions.cs" />
     <Compile Include="Migrations\History\SqlScriptsHistoryContext.cs" />
     <Compile Include="MigrateDatabaseWithSpecialSeed.cs" />
     <Compile Include="Migrations\SpecificSeedMigrator.cs" />
