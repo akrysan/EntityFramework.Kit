@@ -88,7 +88,7 @@ namespace WaveAccess.Data.Entity {
                 using (var tran = historyContext.Database.BeginTransaction()) {
 
                     historyContext.Database.ExecuteSqlCommand(this.GetSqlScript());
-                    historyContext.SqlScriptsHistory.AddOrUpdate(h => h.ScriptName, new SqlScriptsHistorEntity() { ScriptName = this.Path, Hash = this.Hash });
+                    historyContext.SqlScriptsHistory.AddOrUpdate(h => h.ScriptName, new SqlScriptsHistorEntity() { ScriptName = this.Path, Hash = this.Hash, ExecutionDateUtc = DateTime.UtcNow });
                     historyContext.SaveChanges();
 
                     tran.Commit();
