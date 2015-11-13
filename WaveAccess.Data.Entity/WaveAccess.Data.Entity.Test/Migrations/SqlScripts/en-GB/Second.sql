@@ -1,1 +1,0 @@
-﻿Select 'seconf GB' as text

@@ -18,7 +18,10 @@ namespace WaveAccess.Data.Entity.Test.Migrations
 
         protected override void Seed(WaveAccess.Data.Entity.Test.Models.SimpleContext context)
         {
+            this.ExecuteSqlScripts(context, ScriptExecuteRule.Once, "PreDeploy");
             this.ExecuteSqlScripts(context);
+            var executedScripts = this.ExecuteSqlScripts(context, ScriptExecuteRule.ModifiedPack, "ScriptPack");
+            if (executedScripts.Any(r => r.CultureName == "en-AU")) this.ExecuteSqlScripts(context, ScriptExecuteRule.Always, "PostDeploy");
         }
     }
 }

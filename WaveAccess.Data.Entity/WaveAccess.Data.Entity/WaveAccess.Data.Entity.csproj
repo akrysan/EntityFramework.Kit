@@ -60,7 +60,9 @@
     <Compile Include="Migrations\MigrationsConfigurationExtensions.cs" />
     <Compile Include="Migrations\History\SqlScriptsHistoryContext.cs" />
     <Compile Include="MigrateDatabaseWithSpecialSeed.cs" />
+    <Compile Include="Migrations\ScriptExecuteRule.cs" />
     <Compile Include="Migrations\SpecificSeedMigrator.cs" />
+    <Compile Include="Migrations\SqlResourceInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

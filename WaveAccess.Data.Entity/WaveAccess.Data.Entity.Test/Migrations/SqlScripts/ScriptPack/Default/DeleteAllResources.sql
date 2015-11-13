@@ -1,0 +1,1 @@
+﻿Delete From [SimpleEntities] where Name like 'ScriptPack%'

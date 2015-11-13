@@ -1,1 +1,2 @@
-﻿Select 'init gb' as text
+﻿Insert Into [SimpleEntities] 
+values('en-GB\Init.sql',1)

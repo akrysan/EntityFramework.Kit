@@ -1,8 +1,2 @@
-﻿Select 'init def' as text
-GO
---test GO
---GO
-Select 'GO' as text;
-   gO   
-
-Select 'GO 3' as text
+﻿Insert Into [SimpleEntities] 
+values('Default\Init.sql',1)

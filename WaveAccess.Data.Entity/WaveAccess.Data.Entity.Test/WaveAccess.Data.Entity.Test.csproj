@@ -93,21 +93,36 @@
     <EmbeddedResource Include="Migrations\201511052244239_add_version.resx">
       <DependentUpon>201511052244239_add_version.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\SqlScripts\Default\Second.sql" />
     <EmbeddedResource Include="Migrations\SqlScripts\Default\Init.sql" />
     <EmbeddedResource Include="Migrations\SqlScripts\en-AU\Init.sql" />
-    <EmbeddedResource Include="Migrations\SqlScripts\en-AU\Second.sql" />
     <EmbeddedResource Include="Migrations\SqlScripts\en-GB\Init.sql" />
-    <EmbeddedResource Include="Migrations\SqlScripts\en-GB\Second.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\SqlScripts\en-GB\Proc.set\proc.sql" />
+    <EmbeddedResource Include="Migrations\SqlScripts\Default\View\v_SimpleEntities.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\SqlScripts\en-GB\Proc.set\proc1.sql" />
+    <EmbeddedResource Include="Migrations\SqlScripts\ScriptPack\Default\DeleteAllResources.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Migrations\SqlScripts\Default\Advice.Group\" />
+    <EmbeddedResource Include="Migrations\SqlScripts\PreDeploy\Default\InitDataBase.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\SqlScripts\PreDeploy\en-AU\Init.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\SqlScripts\PreDeploy\en-GB\Init.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\SqlScripts\ScriptPack\Default\Resources.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\SqlScripts\ScriptPack\en-AU\Resources.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\SqlScripts\ScriptPack\en-GB\Resources.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\SqlScripts\PostDeploy\Default\AfterUpdate.sql" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
