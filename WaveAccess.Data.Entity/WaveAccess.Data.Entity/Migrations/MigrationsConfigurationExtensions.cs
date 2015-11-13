@@ -18,6 +18,7 @@ using WaveAccess.Data.Entity.Migrations.History;
 
 namespace WaveAccess.Data.Entity.Migrations {
     public static class MigrationsConfigurationExtensions {
+        private static Regex _regex = new Regex(@"^\s*GO\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
         private static string GetResourceCultureName() {
 
@@ -29,12 +30,32 @@ namespace WaveAccess.Data.Entity.Migrations {
             return Thread.CurrentThread.CurrentCulture.Name;
         }
 
+        public static IEnumerable<SqlResourceInfo> ExecuteSqlScripts<TContext>(this DbMigrationsConfiguration<TContext> config, TContext context, string packName) where TContext : DbContext {
+            return ExecuteSqlScripts(config, context, ScriptExecuteRule.ModifiedPack, packName);
+        }
+
+        internal static void ExecuteSqlScript(this SqlResourceInfo resource, SqlScriptsHistoryContext historyContext, DbContextTransaction packTran = null) {
+            DbContextTransaction internalTran = null;
+            if (packTran == null) internalTran = historyContext.Database.BeginTransaction();
+            try {
+                string[] commands = _regex.Split(resource.GetSqlScript());
+                foreach (var command in commands) {
+                    historyContext.Database.ExecuteSqlCommand(command);
+                }
+                historyContext.SqlScriptsHistory.AddOrUpdate(h => h.ScriptName, new SqlScriptsHistorEntity() { ScriptName = resource.Path, Hash = resource.Hash, ExecutionDateUtc = DateTime.UtcNow });
+                historyContext.SaveChanges();
+
+                if (internalTran != null) internalTran.Commit();
+            } finally {
+                if (internalTran != null) internalTran.Dispose();
+            }
+        }
+
         public static IEnumerable<SqlResourceInfo> ExecuteSqlScripts<TContext>(this DbMigrationsConfiguration<TContext> config, TContext context, ScriptExecuteRule rule = ScriptExecuteRule.Modified, string packName = null) where TContext : DbContext {
 
             packName = (packName ?? String.Empty).Trim();
             var configType = config.GetType();
             var startString = configType.Namespace + SqlResourceInfo.scriptFolderName + (string.IsNullOrWhiteSpace(packName) ? "" : packName + ".");
-
 
             var migrateCultures = new[] { "Default", GetResourceCultureName() };
 
@@ -48,6 +69,7 @@ namespace WaveAccess.Data.Entity.Migrations {
                 historyContext.Database.CommandTimeout = 60;
                 var histories = historyContext.SqlScriptsHistory.Where(h => h.ScriptName.StartsWith(startString)).ToDictionary(h => h.ScriptName.ToLower(), h => h.Hash);
 
+                DbContextTransaction packTran = null;
                 switch (rule) {
                     case ScriptExecuteRule.Modified:
                         resources = resources.Where(r => {
@@ -61,6 +83,8 @@ namespace WaveAccess.Data.Entity.Migrations {
                             return !histories.TryGetValue(r.Path.ToLower(), out hashVal) || !hashVal.Equals(r.Hash, StringComparison.InvariantCultureIgnoreCase);
                         })) {
                             resources = new SqlResourceInfo[] { };
+                        } else {
+                            packTran = historyContext.Database.BeginTransaction();
                         }
                         break;
                     case ScriptExecuteRule.Once:
@@ -73,9 +97,13 @@ namespace WaveAccess.Data.Entity.Migrations {
                         .OrderBy(r => r.CultureName == "Default" ? 0 : 1)
                         .ThenBy(r => r.FolderName + "z")
                         .ThenBy(r => r.Path).ToArray();
-
-                foreach (var resourceInfo in resources.ToArray()) {
-                    resourceInfo.ExecuteSqlScript(historyContext);
+                try {
+                    foreach (var resourceInfo in resources.ToArray()) {
+                        resourceInfo.ExecuteSqlScript(historyContext, packTran);
+                    }
+                    if (packTran != null) packTran.Commit();
+                } finally {
+                    if (packTran != null) packTran.Dispose();
                 }
                 return resources;
             }

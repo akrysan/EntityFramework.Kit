@@ -20,7 +20,7 @@ namespace WaveAccess.Data.Entity.Test.Migrations
         {
             this.ExecuteSqlScripts(context, ScriptExecuteRule.Once, "PreDeploy");
             this.ExecuteSqlScripts(context);
-            var executedScripts = this.ExecuteSqlScripts(context, ScriptExecuteRule.ModifiedPack, "ScriptPack");
+            var executedScripts = this.ExecuteSqlScripts(context, ScriptExecuteRule.ModifiedPack, "ScriptPack"); // can use this.ExecuteSqlScripts(context, "ScriptPack");
             if (executedScripts.Any(r => r.CultureName == "en-AU")) this.ExecuteSqlScripts(context, ScriptExecuteRule.Always, "PostDeploy");
         }
     }

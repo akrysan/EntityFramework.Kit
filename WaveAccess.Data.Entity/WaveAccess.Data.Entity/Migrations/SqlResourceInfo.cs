@@ -14,8 +14,7 @@ namespace WaveAccess.Data.Entity.Migrations {
     public class SqlResourceInfo {
         
         internal const string scriptFolderName = ".SqlScripts.";
-        private static Regex _regex = new Regex(@"^\s*GO\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
-
+   
         internal SqlResourceInfo(Type configType, string packName, string Path) {
             this.Assembly = configType.Assembly;
             this.Path = Path;
@@ -25,7 +24,7 @@ namespace WaveAccess.Data.Entity.Migrations {
 
         private static HashAlgorithm _algorithm = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5"));
 
-        public Assembly Assembly { get; private set; }
+        private  Assembly Assembly { get; set; }
         public string Path { get; private set; }
         private int _namespaceLength;
 
@@ -69,23 +68,10 @@ namespace WaveAccess.Data.Entity.Migrations {
             return Assembly.GetManifestResourceStream(Path);
         }
 
-        private string GetSqlScript() {
+        internal string GetSqlScript() {
             using (var resStream = GetResourceStream())
             using (var textStream = new StreamReader(resStream)) {
                 return textStream.ReadToEnd();
-            }
-        }
-
-        internal void ExecuteSqlScript(SqlScriptsHistoryContext historyContext) {
-            using (var tran = historyContext.Database.BeginTransaction()) {
-                string[] commands = _regex.Split(this.GetSqlScript());
-                foreach (var command in commands) {
-                    historyContext.Database.ExecuteSqlCommand(command);
-                }
-                historyContext.SqlScriptsHistory.AddOrUpdate(h => h.ScriptName, new SqlScriptsHistorEntity() { ScriptName = this.Path, Hash = this.Hash, ExecutionDateUtc = DateTime.UtcNow });
-                historyContext.SaveChanges();
-
-                tran.Commit();
             }
         }
     }
