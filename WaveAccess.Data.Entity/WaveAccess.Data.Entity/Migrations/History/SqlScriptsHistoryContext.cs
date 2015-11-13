@@ -13,7 +13,8 @@
     }
 
     public class SqlScriptsHistoryContext:DbContext {
-        public SqlScriptsHistoryContext() {
+
+        static SqlScriptsHistoryContext() {
             Database.SetInitializer<SqlScriptsHistoryContext>(new MigrateDatabaseToLatestVersion<SqlScriptsHistoryContext, Configuration>(true));
         }
 

@@ -66,7 +66,7 @@ namespace WaveAccess.Data.Entity.Migrations {
 
             using (var historyContext = new SqlScriptsHistoryContext(context.Database.Connection, false)) {
                 historyContext.Database.Initialize(true);
-                historyContext.Database.CommandTimeout = 60;
+                historyContext.Database.CommandTimeout = (int)Math.Max(context.Database.CommandTimeout ?? 0, 120);
                 var histories = historyContext.SqlScriptsHistory.Where(h => h.ScriptName.StartsWith(startString)).ToDictionary(h => h.ScriptName.ToLower(), h => h.Hash);
 
                 DbContextTransaction packTran = null;

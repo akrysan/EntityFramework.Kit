@@ -8,7 +8,7 @@ using WaveAccess.Data.Entity.Test.Migrations;
 
 namespace WaveAccess.Data.Entity.Test.Models {
     public class SimpleContext:DbContext {
-        public SimpleContext() {
+        static SimpleContext() {
             Database.SetInitializer<SimpleContext>(new MigrateDatabaseToLatestVersion<SimpleContext, Configuration>());            
         }
         public DbSet<SimpleEntity> SimpleEntities { get; set; }
