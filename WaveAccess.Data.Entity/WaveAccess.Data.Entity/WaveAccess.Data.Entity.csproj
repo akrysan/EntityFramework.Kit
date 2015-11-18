@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LinqRuntimeTypeBuilder.cs" />
     <Compile Include="Log4NetCommandInterceptor.cs" />
     <Compile Include="DBInitializerResolver.cs" />
     <Compile Include="Log4NetSQLExtension.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Migrations\ScriptExecuteRule.cs" />
     <Compile Include="Migrations\SpecificSeedMigrator.cs" />
     <Compile Include="Migrations\SqlResourceInfo.cs" />
+    <Compile Include="PkMappingDecorator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

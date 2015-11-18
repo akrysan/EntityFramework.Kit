@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaveAccess.Data.Entity.Test.Migrations;
+using WaveAccess.Data.Entity.Test.Models.Map;
 
 namespace WaveAccess.Data.Entity.Test.Models {
     public class SimpleContext:DbContext {
@@ -12,5 +13,9 @@ namespace WaveAccess.Data.Entity.Test.Models {
             Database.SetInitializer<SimpleContext>(new MigrateDatabaseToLatestVersion<SimpleContext, Configuration>());            
         }
         public DbSet<SimpleEntity> SimpleEntities { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Configurations.Add(new PkMappingDecorator<UserMap, User>());
+        }
     }
 }

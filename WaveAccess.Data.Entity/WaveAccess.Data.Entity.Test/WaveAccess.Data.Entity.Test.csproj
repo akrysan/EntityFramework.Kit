@@ -68,7 +68,12 @@
     <Compile Include="Migrations\201511052244239_add_version.Designer.cs">
       <DependentUpon>201511052244239_add_version.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511171905593_user.cs" />
+    <Compile Include="Migrations\201511171905593_user.Designer.cs">
+      <DependentUpon>201511171905593_user.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Map\UserMap.cs" />
     <Compile Include="Models\SimpleContext.cs" />
     <Compile Include="Models\SimpleEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,6 +97,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201511052244239_add_version.resx">
       <DependentUpon>201511052244239_add_version.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511171905593_user.resx">
+      <DependentUpon>201511171905593_user.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\SqlScripts\Default\Init.sql" />
     <EmbeddedResource Include="Migrations\SqlScripts\en-AU\Init.sql" />

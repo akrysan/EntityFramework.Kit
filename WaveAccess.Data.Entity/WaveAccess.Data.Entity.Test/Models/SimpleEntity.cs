@@ -10,4 +10,9 @@ namespace WaveAccess.Data.Entity.Test.Models {
         public string Name { get; set; }
         public int Version { get; set; }
     }
+
+    public class User {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }
