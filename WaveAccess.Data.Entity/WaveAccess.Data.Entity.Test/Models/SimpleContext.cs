@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaveAccess.Data.Entity.Test.Migrations;
-using WaveAccess.Data.Entity.Test.Models.Map;
+using WaveAccess.Data.Entity.Test.SecondContext;
+using WaveAccess.Data.Entity.Test.SecondContext.Map;
 
 namespace WaveAccess.Data.Entity.Test.Models {
     public class SimpleContext:DbContext {

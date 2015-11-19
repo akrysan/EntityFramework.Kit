@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WaveAccess.Data.Entity.Test.Models.Map {
+namespace WaveAccess.Data.Entity.Test.SecondContext.Map {
     public class UserMap : EntityTypeConfiguration<User> {
         public UserMap() {
             this.ToTable("SystemUsers", "Sec");
