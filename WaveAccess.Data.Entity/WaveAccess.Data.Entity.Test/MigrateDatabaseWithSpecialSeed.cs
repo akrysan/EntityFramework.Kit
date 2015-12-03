@@ -10,7 +10,6 @@ namespace WaveAccess.Data.Entity.Test {
     public class MigrateDatabaseWithSpecialSeed {
         [TestMethod]
         public void TestResourses() {
-
             Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-GB");
             using (var db = new SimpleContext()) {
                 var test = db.SimpleEntities.FirstOrDefault();

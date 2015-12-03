@@ -7,4 +7,4 @@ CREATE VIEW [dbo].[v_SimpleEntities]
 AS
 SELECT        Id, Name, Version
 FROM    dbo.SimpleEntities
-where version > 1
+where version > 0
