@@ -9,16 +9,12 @@ using WaveAccess.Data.Entity.Test.Module2.Models;
 
 namespace WaveAccess.Data.Entity.Test
 {
-    public class GenericContext : DbContext, IQueryHintContext
+    public class GenericContext : DbContext
     {
         static GenericContext()
         {
             Database.SetInitializer<GenericContext>(new NullDatabaseInitializer<GenericContext>());
         }
-
-        public bool ApplyHint { get; set; }
-       
-        public string QueryHint { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

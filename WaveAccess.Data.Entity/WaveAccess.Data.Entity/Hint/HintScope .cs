@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.Entity.Infrastructure.Interception;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,17 +11,31 @@ namespace WaveAccess.Data.Entity.Hint
 {
     public class HintScope : IDisposable
     {
-        public IQueryHintContext Context { get; private set; }
+        [ThreadStatic]
+        internal static HintScope CurrentHintScope;
+
+        public string QueryHint { get; private set; }
+
         public void Dispose()
         {
-            Context.ApplyHint = false;
+            CurrentHintScope = null;
         }
 
-        public HintScope(IQueryHintContext context, string hint)
+        public HintScope(string hint)
         {
-            Context = context;
-            Context.ApplyHint = true;
-            Context.QueryHint = hint;
+            if (String.IsNullOrWhiteSpace(hint))
+            {
+                throw new ArgumentOutOfRangeException("hint");
+            }
+
+            QueryHint = hint;
+
+            CurrentHintScope = this;
+        }
+
+        virtual internal protected void ApplyHint<T>(DbCommand command, DbCommandInterceptionContext<T> interceptionContext)
+        {
+            command.CommandText += string.Format(" OPTION ({0})", QueryHint);
         }
     }
 }

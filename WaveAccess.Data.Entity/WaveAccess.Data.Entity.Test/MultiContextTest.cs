@@ -15,12 +15,16 @@ namespace WaveAccess.Data.Entity.Test {
         [TestMethod]
         public void TestTasks() {
             DbInterception.Add(new HintInterceptor());
+            using (var userContext = new UserContext())
+            {
+                userContext.Database.Initialize(true);
+            }
             using (var test = new TaskContext())
             {
                 test.Database.Initialize(true);
             }
             using (var db = new GenericContext()) {
-                using (var qh = new HintScope(db, "HASH JOIN"))
+                using (var qh = new HintScope("HASH JOIN"))
                 {
                     var tasks = db.Set<Task>().Include(t => t.User).Where(t => db.Set<User>().
                       Where(UserExpressions.UserByGroups(1)).Any(u => u.Id == t.UserId));
