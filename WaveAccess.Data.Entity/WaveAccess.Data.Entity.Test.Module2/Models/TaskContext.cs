@@ -18,7 +18,7 @@ namespace WaveAccess.Data.Entity.Test.Module2.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Configurations.Add(new TaskMap());
-            modelBuilder.Configurations.Add(new PkMappingDecorator<UserMap, User>());
+            modelBuilder.Configurations.Add(new EntityPrimaryKeyMap<UserMap, User>());
         }
     }
 }

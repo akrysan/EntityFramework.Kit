@@ -4,6 +4,8 @@ using System.Data.Entity;
 using WaveAccess.Data.Entity.Test.Module1.Models;
 using WaveAccess.Data.Entity.Test.Module2.Models;
 using WaveAccess.Data.Entity.Test.Module1.Expressions;
+using WaveAccess.Data.Entity.Hint;
+using System.Data.Entity.Infrastructure.Interception;
 
 namespace WaveAccess.Data.Entity.Test {
 
@@ -12,12 +14,20 @@ namespace WaveAccess.Data.Entity.Test {
     {
         [TestMethod]
         public void TestTasks() {
-
+            DbInterception.Add(new HintInterceptor());
+            using (var test = new TaskContext())
+            {
+                test.Database.Initialize(true);
+            }
             using (var db = new GenericContext()) {
-                var tasks = db.Set<Task>().Include( t=>t.User).Where(t => db.Set<User>().
-                     Where(UserExpressions.UserByGroups(1)).Any(u => u.Id == t.UserId));
-                var testarr = tasks.ToArray();
-                Assert.AreEqual(4, testarr.Length);
+                using (var qh = new HintScope(db, "HASH JOIN"))
+                {
+                    var tasks = db.Set<Task>().Include(t => t.User).Where(t => db.Set<User>().
+                      Where(UserExpressions.UserByGroups(1)).Any(u => u.Id == t.UserId));
+                    var testarr = tasks.ToArray();
+
+                    Assert.AreEqual(4, testarr.Length);
+                }
             }
         }
     }
