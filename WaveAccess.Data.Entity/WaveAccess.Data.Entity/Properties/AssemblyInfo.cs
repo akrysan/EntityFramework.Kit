@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WaveAccess.Data.Entity")]
-[assembly: AssemblyDescription(@"A collection of EF contributions for .NET Entity Framework 6.")]
+[assembly: AssemblyDescription(@"A collection of EF contributions for .NET Entity Framework 6")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("WaveAccess")]
 [assembly: AssemblyProduct("WaveAccess.Data.Entity")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("© WaveAccess")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
