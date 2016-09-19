@@ -22,6 +22,7 @@ namespace WaveAccess.Data.Entity.Migrations {
             _namespaceLength = configType.Namespace.Length + scriptFolderName.Length +(packName.Length == 0 ? 0 : packName.Length + 1);
         }
 
+        [ThreadStatic]
         private static HashAlgorithm _algorithm = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5"));
 
         private  Assembly Assembly { get; set; }
