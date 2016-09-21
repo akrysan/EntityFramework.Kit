@@ -38,7 +38,10 @@ namespace WaveAccess.Data.Entity.Migrations {
             DbContextTransaction internalTran = null;
             if (packTran == null) internalTran = historyContext.Database.BeginTransaction();
             try {
-                string[] commands = _regex.Split(resource.GetSqlScript());
+                string[] commands = _regex
+                    .Split(resource.GetSqlScript())
+                    .Where(c => !string.IsNullOrWhiteSpace(c))
+                    .ToArray();
                 foreach (var command in commands) {
                     historyContext.Database.ExecuteSqlCommand(command);
                 }
