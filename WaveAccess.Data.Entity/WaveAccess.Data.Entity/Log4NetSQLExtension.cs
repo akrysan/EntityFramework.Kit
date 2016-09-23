@@ -14,14 +14,26 @@ namespace WaveAccess.Data.Entity
     {
         public static void LogCommand(this ILog log, DbCommand command, long duration, object result, Exception exception = null)
         {
+            // Ignore EF internal exceptions
+            if (command != null && command.CommandText != null && command.CommandText.Contains("[dbo].[__MigrationHistory]") &&
+                exception != null && exception.Message.Contains("Invalid column name 'CreatedOn'"))
+            {
+                return;
+            }
+
+            if (command != null && command.CommandText != null && command.CommandText.Contains("[dbo].[EdmMetadata]") &&
+                exception != null && exception.Message.Contains("Invalid object name 'dbo.EdmMetadata'"))
+            {
+                return;
+            }
+
             AddExtendedThreadInfo();
             if (exception != null)
             {
-                log.Error(String.Format(" Exception occurred when executing the command:{0} {1} {0} Exception:{0}{2}",
-                                      Environment.NewLine,
-                                      CreateCommandMessage(command),
-                                      exception.ToString()),
-                      exception);
+                log.ErrorFormat(" Exception occurred when executing the command:{0} {1} {0} Exception:{0}{2}",
+                    Environment.NewLine,
+                    CreateCommandMessage(command),
+                    exception);
             }
             else
             {
@@ -32,13 +44,9 @@ namespace WaveAccess.Data.Entity
             }
 
         }
+
         private static void AddExtendedThreadInfo()
         {
-            //if (_shellSettings.Value != null)
-            //{
-            //    ThreadContext.Properties["Tenant"] = _shellSettings.Value.Name;
-            //}
-
             try
             {
                 var ctx = HttpContext.Current;
@@ -53,6 +61,7 @@ namespace WaveAccess.Data.Entity
                 // can happen on cloud service for an unknown reason
             }
         }
+
         private static string CreateCommandMessage(DbCommand command)
         {
             StringBuilder result = new StringBuilder();
