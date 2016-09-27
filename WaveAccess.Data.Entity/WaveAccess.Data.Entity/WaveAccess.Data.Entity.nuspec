@@ -2,13 +2,13 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Avoid logging EF internal exception</releaseNotes>
+    <releaseNotes>Fix hash algorithm initialization</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>Contrib EntityFramework EF6</tags>
     <dependencies>

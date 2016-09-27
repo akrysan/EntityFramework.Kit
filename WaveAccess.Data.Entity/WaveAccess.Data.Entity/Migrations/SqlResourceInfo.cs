@@ -23,7 +23,7 @@ namespace WaveAccess.Data.Entity.Migrations {
         }
 
         [ThreadStatic]
-        private static HashAlgorithm _algorithm = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5"));
+        private static HashAlgorithm _algorithm;
 
         private  Assembly Assembly { get; set; }
         public string Path { get; private set; }
@@ -37,9 +37,22 @@ namespace WaveAccess.Data.Entity.Migrations {
             }
         }
 
+        private HashAlgorithm Algorithm
+        {
+            get
+            {
+                if (_algorithm == null)
+                {
+                    _algorithm = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5"));
+                }
+
+                return _algorithm;
+            }
+        }
+
         private string CalculateHash() {
             using (var resStream = GetResourceStream()) {
-                byte[] hashBytes = _algorithm.ComputeHash(resStream);
+                byte[] hashBytes = Algorithm.ComputeHash(resStream);
                 resStream.Close();
                 StringBuilder sb = new StringBuilder(hashBytes.Length * 2);
                 for (int i = 0; i < hashBytes.Length; i++) {
