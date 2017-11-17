@@ -1,22 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
-using System.Data.Entity.Migrations.Infrastructure;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using WaveAccess.Data.Entity.Migrations.History;
 
-namespace WaveAccess.Data.Entity.Migrations {
+namespace WaveAccess.Data.Entity.Migrations
+{
     public static class MigrationsConfigurationExtensions {
         private static Regex _regex = new Regex(@"^\s*GO\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
@@ -68,7 +60,7 @@ namespace WaveAccess.Data.Entity.Migrations {
                 .Where(r => migrateCultures.Contains(r.CultureName, StringComparer.InvariantCultureIgnoreCase));
 
             using (var historyContext = new SqlScriptsHistoryContext(context.Database.Connection, false)) {
-                historyContext.Database.Initialize(true);
+                historyContext.Database.Initialize(false);
                 historyContext.Database.CommandTimeout = (int)Math.Max(context.Database.CommandTimeout ?? 0, 120);
                 var histories = historyContext.SqlScriptsHistory.Where(h => h.ScriptName.StartsWith(startString)).ToDictionary(h => h.ScriptName.ToLower(), h => h.Hash);
 
