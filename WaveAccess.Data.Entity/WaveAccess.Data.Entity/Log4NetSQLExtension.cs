@@ -16,6 +16,12 @@ namespace WaveAccess.Data.Entity
         {
             // Ignore EF internal exceptions
             if (command != null && command.CommandText != null && command.CommandText.Contains("[dbo].[__MigrationHistory]") &&
+                exception != null && exception.Message.Contains("Invalid object name 'dbo.__MigrationHistory'"))
+            {
+                return;
+            }
+
+            if (command != null && command.CommandText != null && command.CommandText.Contains("[dbo].[__MigrationHistory]") &&
                 exception != null && exception.Message.Contains("Invalid column name 'CreatedOn'"))
             {
                 return;

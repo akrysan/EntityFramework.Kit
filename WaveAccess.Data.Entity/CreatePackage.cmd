@@ -1,1 +1,1 @@
-packages\NuGet.CommandLine.3.4.3\tools\NuGet.exe pack WaveAccess.Data.Entity\WaveAccess.Data.Entity.csproj -OutputDirectory ..\..\PackagesRepository
+packages\NuGet.CommandLine.4.6.2\tools\NuGet.exe pack WaveAccess.Data.Entity\WaveAccess.Data.Entity.csproj -OutputDirectory ..\..\PackagesRepository
