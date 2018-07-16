@@ -2,13 +2,13 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.2.5</version>
+    <version>1.3.0</version>
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Ignore "Invalid object name 'dbo.__MigrationHistory'" EF exception</releaseNotes>
+    <releaseNotes>Append SqlCommand text to SqlException message</releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>Contrib EntityFramework EF6</tags>
     <dependencies>

@@ -4,18 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure.Interception;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace WaveAccess.Data.Entity
 {
- 
+
     public class Log4NetCommandInterceptor : IDbCommandInterceptor
     {
         private static ILog Log = LogManager.GetLogger("EntityFramework.SQL");
+        private static FieldInfo _messageFieldInfo = typeof(SqlException).GetField("_message", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private readonly Stopwatch _stopwatch = new Stopwatch();
         public void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext)
@@ -47,7 +50,15 @@ namespace WaveAccess.Data.Entity
         }
         private void LogCommand<TResult>(DbCommand command, DbCommandInterceptionContext<TResult> interceptionContext)
         {
-            Log.LogCommand(command, _stopwatch.ElapsedMilliseconds, ((object)interceptionContext.OriginalResult??"(Null)").ToString(), interceptionContext.Exception);
+            var sqlException = interceptionContext.Exception as SqlException;
+            if (sqlException == null)
+            {
+                Log.LogCommand(command, _stopwatch.ElapsedMilliseconds, ((object)interceptionContext.OriginalResult ?? "(Null)").ToString());
+            }
+            else
+            {
+                _messageFieldInfo.SetValue(sqlException, sqlException.Message + Environment.NewLine + command.GetMessage());
+            }
         }
     }
 }
