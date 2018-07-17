@@ -18,7 +18,6 @@ namespace WaveAccess.Data.Entity
     public class Log4NetCommandInterceptor : IDbCommandInterceptor
     {
         private static ILog Log = LogManager.GetLogger("EntityFramework.SQL");
-        private static FieldInfo _messageFieldInfo = typeof(SqlException).GetField("_message", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private readonly Stopwatch _stopwatch = new Stopwatch();
         public void NonQueryExecuting(DbCommand command, DbCommandInterceptionContext<int> interceptionContext)
@@ -51,14 +50,12 @@ namespace WaveAccess.Data.Entity
         private void LogCommand<TResult>(DbCommand command, DbCommandInterceptionContext<TResult> interceptionContext)
         {
             var sqlException = interceptionContext.Exception as SqlException;
-            if (sqlException == null)
+            if (sqlException != null)
             {
-                Log.LogCommand(command, _stopwatch.ElapsedMilliseconds, ((object)interceptionContext.OriginalResult ?? "(Null)").ToString());
+                sqlException.UpdateMessage(command);
             }
-            else
-            {
-                _messageFieldInfo.SetValue(sqlException, sqlException.Message + Environment.NewLine + command.GetMessage());
-            }
+
+            Log.LogCommand(command, _stopwatch.ElapsedMilliseconds, ((object)interceptionContext.OriginalResult ?? "(Null)").ToString());
         }
     }
 }

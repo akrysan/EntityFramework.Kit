@@ -1,18 +1,17 @@
-﻿using log4net;
-using log4net.Core;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Linq;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+using log4net;
+using log4net.Core;
 
 namespace WaveAccess.Data.Entity
 {
     public static class Log4NetSQLExtension
     {
+        private static FieldInfo _messageFieldInfo = typeof(SqlException).GetField("_message", BindingFlags.NonPublic | BindingFlags.Instance);
+
         public static string GetMessage(this DbCommand command)
         {
             StringBuilder result = new StringBuilder();
@@ -30,15 +29,24 @@ namespace WaveAccess.Data.Entity
 
         public static void LogCommand(this ILog log, DbCommand command, long duration, object result)
         {
-            var data = new LoggingEventData {
-                LoggerName = log.Logger.Name,
-                Level = Level.Debug,
-                Message = command.GetMessage()
-            };
-            var logEvent = new LoggingEvent(typeof(Log4NetCommandInterceptor), log.Logger.Repository, data);
-            logEvent.Properties["Duration"] = duration;
-            logEvent.Properties["Result"] = result;
-            log.Logger.Log(logEvent);
+            if (log.IsDebugEnabled)
+            {
+                var data = new LoggingEventData
+                {
+                    LoggerName = log.Logger.Name,
+                    Level = Level.Debug,
+                    Message = command.GetMessage()
+                };
+                var logEvent = new LoggingEvent(typeof(Log4NetCommandInterceptor), log.Logger.Repository, data);
+                logEvent.Properties["Duration"] = duration;
+                logEvent.Properties["Result"] = result;
+                log.Logger.Log(logEvent);
+            }
+        }
+
+        public static void UpdateMessage(this SqlException sqlException, DbCommand command)
+        {
+            _messageFieldInfo.SetValue(sqlException, $"{sqlException.Message}{Environment.NewLine}SQL Command:{Environment.NewLine}{command.GetMessage()}");
         }
     }
 }
