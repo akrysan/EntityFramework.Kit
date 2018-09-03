@@ -60,7 +60,7 @@ namespace WaveAccess.Data.Entity.Migrations
                 .Where(r => migrateCultures.Contains(r.CultureName, StringComparer.InvariantCultureIgnoreCase));
 
             using (var historyContext = new SqlScriptsHistoryContext(context.Database.Connection, false)) {
-                historyContext.Database.Initialize(false);
+                historyContext.Database.Initialize(true);
                 historyContext.Database.CommandTimeout = (int)Math.Max(context.Database.CommandTimeout ?? 0, 120);
                 var histories = historyContext.SqlScriptsHistory.Where(h => h.ScriptName.StartsWith(startString)).ToDictionary(h => h.ScriptName.ToLower(), h => h.Hash);
 
