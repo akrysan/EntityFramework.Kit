@@ -60,7 +60,7 @@ namespace WaveAccess.Data.Entity.Migrations
                 .Where(r => migrateCultures.Contains(r.CultureName, StringComparer.InvariantCultureIgnoreCase));
 
             using (var historyContext = new SqlScriptsHistoryContext(context.Database.Connection, false)) {
-                historyContext.Database.Initialize(true);
+                InitializeDatabase(historyContext);
                 historyContext.Database.CommandTimeout = (int)Math.Max(context.Database.CommandTimeout ?? 0, 120);
                 var histories = historyContext.SqlScriptsHistory.Where(h => h.ScriptName.StartsWith(startString)).ToDictionary(h => h.ScriptName.ToLower(), h => h.Hash);
 
@@ -102,6 +102,15 @@ namespace WaveAccess.Data.Entity.Migrations
                 }
                 return resources;
             }
+        }
+
+        private static void InitializeDatabase(DbContext dbContext) {
+            dbContext.Database.ExecuteSqlCommand(@"IF OBJECT_ID(N'[dbo].[__MigrationSqlScriptHistory]', N'U') IS NULL
+CREATE TABLE [dbo].[__MigrationSqlScriptHistory] (
+    [ScriptName]       NVARCHAR (1048) NOT NULL,
+    [ExecutionDateUtc] DATETIME        NOT NULL,
+    [Hash]             CHAR (32)       NOT NULL
+);");
         }
     }
 }

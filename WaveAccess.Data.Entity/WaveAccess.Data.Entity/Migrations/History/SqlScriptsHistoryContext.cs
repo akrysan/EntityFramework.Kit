@@ -1,9 +1,8 @@
-﻿namespace WaveAccess.Data.Entity.Migrations.History {
+﻿namespace WaveAccess.Data.Entity.Migrations.History
+{
     using System;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Common;
     using System.Data.Entity;
-    using System.Data.Entity.Migrations;
 
 
     public class SqlScriptsHistorEntity {
@@ -15,11 +14,12 @@
     public class SqlScriptsHistoryContext:DbContext {
 
         static SqlScriptsHistoryContext() {
-            Database.SetInitializer<SqlScriptsHistoryContext>(new MigrateDatabaseToLatestVersion<SqlScriptsHistoryContext, Configuration>(true));
+            Database.SetInitializer(new NullDatabaseInitializer<SqlScriptsHistoryContext>());
         }
 
         public SqlScriptsHistoryContext(DbConnection connection, bool contextOwnsConnection)
             : base(connection, contextOwnsConnection) {
+            Database.SetInitializer(new NullDatabaseInitializer<SqlScriptsHistoryContext>());
         }
         public DbSet<SqlScriptsHistorEntity> SqlScriptsHistory { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder) {
@@ -29,12 +29,6 @@
                 historyMapping.Property(h => h.ScriptName).HasMaxLength(1048).IsRequired();
                 historyMapping.Property(h => h.ExecutionDateUtc).IsRequired();
                 historyMapping.Property(h => h.Hash).HasColumnType("char").HasMaxLength(32).IsRequired();
-        }
-    }
-
-    internal sealed class Configuration : DbMigrationsConfiguration<SqlScriptsHistoryContext> {
-        public Configuration() {
-            AutomaticMigrationsEnabled = true;
         }
     }
 }
