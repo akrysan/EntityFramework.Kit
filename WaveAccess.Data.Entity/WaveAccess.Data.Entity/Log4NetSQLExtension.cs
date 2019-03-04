@@ -35,6 +35,7 @@ namespace WaveAccess.Data.Entity
                 {
                     LoggerName = log.Logger.Name,
                     Level = Level.Debug,
+                    TimeStampUtc = DateTime.UtcNow,
                     Message = command.GetMessage()
                 };
                 var logEvent = new LoggingEvent(typeof(Log4NetCommandInterceptor), log.Logger.Repository, data);
