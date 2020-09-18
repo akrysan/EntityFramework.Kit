@@ -53,8 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbContextMetaData.cs" />
     <Compile Include="Hint\HintInterceptor.cs" />
     <Compile Include="Hint\HintScope .cs" />
+    <Compile Include="Hint\JoinHintScope.cs" />
     <Compile Include="LinqRuntimeTypeBuilder.cs" />
     <Compile Include="Log4NetCommandInterceptor.cs" />
     <Compile Include="DBInitializerResolver.cs" />
