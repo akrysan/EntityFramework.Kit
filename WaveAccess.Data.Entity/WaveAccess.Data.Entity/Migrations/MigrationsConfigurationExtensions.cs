@@ -11,6 +11,7 @@ namespace WaveAccess.Data.Entity.Migrations
 {
     public static class MigrationsConfigurationExtensions {
         private static Regex _regex = new Regex(@"^\s*GO\s*$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+        private const int _minimalMigrationTimeout = 120;
 
         private static string GetResourceCultureName() {
 
@@ -61,7 +62,7 @@ namespace WaveAccess.Data.Entity.Migrations
 
             using (var historyContext = new SqlScriptsHistoryContext(context.Database.Connection, false)) {
                 InitializeDatabase(historyContext);
-                historyContext.Database.CommandTimeout = (int)Math.Max(context.Database.CommandTimeout ?? 0, 120);
+                historyContext.Database.CommandTimeout = Math.Max(config.CommandTimeout ?? 0, Math.Max(context.Database.CommandTimeout ?? 0, _minimalMigrationTimeout));
                 var histories = historyContext.SqlScriptsHistory.Where(h => h.ScriptName.StartsWith(startString)).ToDictionary(h => h.ScriptName.ToLower(), h => h.Hash);
 
                 DbContextTransaction packTran = null;
