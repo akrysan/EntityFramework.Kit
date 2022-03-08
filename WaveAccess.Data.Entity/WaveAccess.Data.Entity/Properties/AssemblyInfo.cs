@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WaveAccess.Data.Entity")]
 [assembly: AssemblyDescription(@"A collection of EF contributions for .NET Entity Framework 6")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("WaveAccess")]
+[assembly: AssemblyCompany("Aptem")]
 [assembly: AssemblyProduct("WaveAccess.Data.Entity")]
-[assembly: AssemblyCopyright("© WaveAccess")]
+[assembly: AssemblyCopyright("© Aptem")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
