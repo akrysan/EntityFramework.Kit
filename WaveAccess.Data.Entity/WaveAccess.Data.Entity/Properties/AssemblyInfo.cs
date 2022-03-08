@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WaveAccess.Data.Entity")]
 [assembly: AssemblyDescription(@"A collection of EF contributions for .NET Entity Framework 6")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("WaveAccess")]
+[assembly: AssemblyCompany("Aptem")]
 [assembly: AssemblyProduct("WaveAccess.Data.Entity")]
-[assembly: AssemblyCopyright("© WaveAccess")]
+[assembly: AssemblyCopyright("© Aptem")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("2.2.0.0")]
-[assembly: AssemblyFileVersion("2.2.0.0")]
+[assembly: AssemblyVersion("2.3.0.0")]
+[assembly: AssemblyFileVersion("2.3.0.0")]
