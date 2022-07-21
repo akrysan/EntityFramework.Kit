@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -47,6 +48,8 @@ namespace WaveAccess.Data.Entity
             _stopwatch.Stop();
             LogCommand(command, interceptionContext);
         }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
         private void LogCommand<TResult>(DbCommand command, DbCommandInterceptionContext<TResult> interceptionContext)
         {
             var sqlException = interceptionContext.Exception as SqlException;
