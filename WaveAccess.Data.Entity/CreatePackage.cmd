@@ -1,1 +1,1 @@
-packages\NuGet.CommandLine.4.6.2\tools\NuGet.exe pack WaveAccess.Data.Entity\WaveAccess.Data.Entity.csproj -Prop Configuration=Release -OutputDirectory ..\..\PackagesRepository
+dotnet pack WaveAccess.Data.Entity\WaveAccess.Data.Entity.csproj --configuration Release --output ..\..\PackagesRepository
