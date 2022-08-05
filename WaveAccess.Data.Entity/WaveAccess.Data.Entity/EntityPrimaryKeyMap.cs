@@ -30,6 +30,7 @@ namespace WaveAccess.Data.Entity {
                         return false;
                     }
 
+                    // Expression<Func<T, TKey>> where TKey is generic parameter of HasKey
                     var parameterType = typeof(Expression<>).MakeGenericType(typeof(Func<,>).MakeGenericType(thisType.GetGenericArguments()[1], x.GetGenericArguments()[0]));
                     return x.Name == "HasKey" && x.GetParameters().Length == 1 && x.GetParameters()[0].ParameterType == parameterType;
                 });
