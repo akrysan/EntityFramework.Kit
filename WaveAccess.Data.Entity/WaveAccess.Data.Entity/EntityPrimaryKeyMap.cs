@@ -16,8 +16,7 @@ namespace WaveAccess.Data.Entity {
         private static PropertyInfo _keyPropertiesPropertyInfo;
         private static MethodInfo _hasKeyMethodInfo;
         private static MethodInfo _ignoreMethodInfo;
-        static EntityPrimaryKeyMap()
-        {
+        static EntityPrimaryKeyMap() {
             _configurationPropertyInfo = typeof(TC).GetProperty("Configuration", BindingFlags.NonPublic | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
             var configType = Type.GetType("System.Data.Entity.ModelConfiguration.Configuration.Types.EntityTypeConfiguration,EntityFramework");
             _tableNamePropertyInfo = configType.GetProperty("TableName");
@@ -25,7 +24,16 @@ namespace WaveAccess.Data.Entity {
             _schemaNamePropertyInfo = configType.GetProperty("SchemaName");
             _keyPropertiesPropertyInfo = configType.GetProperty("KeyProperties", BindingFlags.NonPublic | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
             var thisType = typeof(EntityPrimaryKeyMap<TC, T>);
-            _hasKeyMethodInfo = thisType.GetMethod("HasKey");
+            _hasKeyMethodInfo = thisType.GetMethods()
+                .FirstOrDefault(x => {
+                    if (!x.IsGenericMethod) {
+                        return false;
+                    }
+
+                    // Expression<Func<T, TKey>> where TKey is generic parameter of HasKey
+                    var parameterType = typeof(Expression<>).MakeGenericType(typeof(Func<,>).MakeGenericType(thisType.GetGenericArguments()[1], x.GetGenericArguments()[0]));
+                    return x.Name == "HasKey" && x.GetParameters().Length == 1 && x.GetParameters()[0].ParameterType == parameterType;
+                });
             _ignoreMethodInfo = thisType.GetMethod("Ignore");
         }
 

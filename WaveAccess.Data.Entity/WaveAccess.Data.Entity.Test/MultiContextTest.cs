@@ -8,16 +8,33 @@ using WaveAccess.Data.Entity.Hint;
 using System.Data.Entity.Infrastructure.Interception;
 using log4net;
 
-namespace WaveAccess.Data.Entity.Test {
+namespace WaveAccess.Data.Entity.Test
+{
 
     [TestClass]
     public class MultiContextTest
     {
+        private static IDbInterceptor _hintInterceptor = new HintInterceptor();
+        private static IDbInterceptor _log4NetInterceptor = new Log4NetCommandInterceptor();
+
+        [ClassInitialize]
+        public static void ClassInit(TestContext context)
+        {
+            DbInterception.Add(_hintInterceptor);
+            DbInterception.Add(_log4NetInterceptor);
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            DbInterception.Remove(_hintInterceptor);
+            DbInterception.Remove(_log4NetInterceptor);
+        }
+
         [TestMethod]
         public void TestTasks()
         {
-            DbInterception.Add(new HintInterceptor());
-             using (var userContext = new UserContext())
+            using (var userContext = new UserContext())
             {
                 userContext.Database.Initialize(true);
             }
@@ -38,10 +55,10 @@ namespace WaveAccess.Data.Entity.Test {
                 }
             }
         }
-             [TestMethod]
+
+        [TestMethod]
         public void TestScope()
         {
-
             using (var userContext = new UserContext())
             {
                 userContext.Database.Initialize(true);
@@ -50,8 +67,7 @@ namespace WaveAccess.Data.Entity.Test {
             {
                 test.Database.Initialize(true);
             }
-            DbInterception.Add(new HintInterceptor());
-            DbInterception.Add(new Log4NetCommandInterceptor());
+
             var testing = Log4NetTestHelper.RecordLog(() =>
             {
                 using (var db = new GenericContext())
@@ -63,7 +79,7 @@ namespace WaveAccess.Data.Entity.Test {
                         var testarr = tasks.ToArray();
                     }
                 }
-            });                                
+            });
             Assert.IsTrue(testing[0].Contains("INNER HASH JOIN [dbo].[v_GroupHierarchy]"));
         }
     }
