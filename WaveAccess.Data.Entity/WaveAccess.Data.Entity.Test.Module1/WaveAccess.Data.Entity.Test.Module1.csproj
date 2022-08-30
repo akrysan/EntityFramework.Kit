@@ -1,106 +1,49 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A1A2A37C-D053-4FB6-8968-82A881DDCC73}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WaveAccess.Data.Entity.Test.Module1</RootNamespace>
-    <AssemblyName>WaveAccess.Data.Entity.Test.Module1</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyTitle>WaveAccess.Data.Entity.Test.Module1</AssemblyTitle>
+    <Product>WaveAccess.Data.Entity.Test.Module1</Product>
+    <Copyright>Copyright ©  2015</Copyright>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Expressions\UserExpressions.cs" />
-    <Compile Include="Migrations\201512031153347_Init.cs" />
-    <Compile Include="Migrations\201512031153347_Init.Designer.cs">
+    <Compile Update="Migrations\201512031153347_Init.Designer.cs">
       <DependentUpon>201512031153347_Init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201512031450430_Add FirsNameUser.cs" />
-    <Compile Include="Migrations\201512031450430_Add FirsNameUser.Designer.cs">
+    <Compile Update="Migrations\201512031450430_Add FirsNameUser.Designer.cs">
       <DependentUpon>201512031450430_Add FirsNameUser.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Group.cs" />
-    <Compile Include="Models\GroupHierarchy.cs" />
-    <Compile Include="Models\Mapping\UserMap.cs" />
-    <Compile Include="Models\Mapping\GroupMap.cs" />
-    <Compile Include="Models\Mapping\GroupHierarchyMap.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserContext.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\WaveAccess.Data.Entity\WaveAccess.Data.Entity.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WaveAccess.Data.Entity\WaveAccess.Data.Entity.csproj">
-      <Project>{380c8486-9872-4eea-ad6b-f646748af658}</Project>
-      <Name>WaveAccess.Data.Entity</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512031450430_Add FirsNameUser.resx">
+    <EmbeddedResource Update="Migrations\201512031450430_Add FirsNameUser.resx">
       <DependentUpon>201512031450430_Add FirsNameUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\SqlScripts\Default\v_GroupHierarchy.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512031153347_Init.resx">
+    <EmbeddedResource Update="Migrations\201512031153347_Init.resx">
       <DependentUpon>201512031153347_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\SqlScripts\Default\Data.sql" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+  </ItemGroup>
 </Project>
