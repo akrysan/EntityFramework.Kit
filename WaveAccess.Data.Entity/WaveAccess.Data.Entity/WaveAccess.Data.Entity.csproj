@@ -7,12 +7,12 @@
     <Product>WaveAccess.Data.Entity</Product>
     <Description>@"A collection of EF contributions for .NET Entity Framework 6</Description>
     <Copyright>© Aptem</Copyright>
-    <Version>2.5.0</Version>
-    <AssemblyVersion>2.3.0.0</AssemblyVersion>
-    <FileVersion>2.3.0.0</FileVersion>
+    <Version>2.6.0</Version>
+    <AssemblyVersion>2.6.0.0</AssemblyVersion>
+    <FileVersion>2.6.0.0</FileVersion>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <Authors>Aptem</Authors>
-    <PackageReleaseNotes>Minor bug fixes</PackageReleaseNotes>
+    <PackageReleaseNotes>Add Tag interceptor for injecting comments into SQL query</PackageReleaseNotes>
     <PackageTags>Contrib EntityFramework EF6</PackageTags>
     <TargetFrameworkProfile />
   </PropertyGroup>
